@@ -1,0 +1,166 @@
+#rsearch{
+	/*color: #28a745;
+    border-color: #28a745;*/
+	
+	color: #fff;
+    background-color: #fed136;
+    border-color: #fed136;
+	
+}
+
+.table-res{
+    
+    width: 100%;
+    overflow-x: scroll;
+    //overflow-y: scroll;
+}
+
+#refreshBtn:hover{
+    cursor: pointer;
+    color: #6495ed;
+}
+
+.modal-contents {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    /* width: 100%; */
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    outline: 0;
+}
+
+.one_quarter{
+
+
+	width: 21.25%;
+	display: inline;
+    float: left;
+    margin: 0 0 0 5%;
+    list-style: none;
+}
+
+.nav-itemize:hover{
+    cursor: pointer;
+    color: #3a5687 !important;
+    border-bottom: solid 1px #3a5687;
+   
+}
+
+
+.red{
+    background-color: red;
+    color: white;
+}
+
+.darkred{
+background-color: darkred;
+color: white;
+}
+
+.green{
+    background-color: green;
+    color: white;
+}
+
+.yellow{
+    background-color: yellow;
+}
+
+.darkblue{
+background-color: darkblue;
+color: white;
+}
+
+.blue{
+    background-color: blue;
+    
+}
+
+.lightblue{
+background-color: lightblue;
+}
+
+.orange{
+background-color: orange;
+}
+
+.black{
+background-color: black;
+color: white;
+}
+
+.grey{
+background-color: grey;
+color: white;
+}
+
+.ui-datepicker{
+        margin-top: 1%;
+        background-color: #e9ecef;
+        padding: 1%;
+        color: black !important;
+    }
+
+.ui-datepicker a{
+       
+        color: black !important;
+        padding-right: 55%;
+    }
+    
+   /*   .ui-datepicker-prev{
+        padding-right: 54%;
+    }
+  <a class=" ui-corner-all" data-handler="prev" data-event="click" title="Prev"><span class="ui-icon ui-icon-circle-triangle-w">Prev</span></a>*/
+.navbar {
+    /*padding: 0rem !important;*/
+}
+
+.fad {
+  transition: opacity 0.25s linear;
+
+
+}
+
+/*@media (prefers-reduced-motion: reduce) {
+  .fad {
+    transition: none;
+  }
+}*/
+
+.fad:not(.show) {
+  opacity: 0;
+}
+
+/*.modal.fad {
+  transition: transform 0.5s ease-out;
+  transform: translate(0, -50px);
+}*/
+
+/*
+.highlight:hover{
+    background-color:  #6495ed;
+}*/
+
+/*Resposive design*/
+/*My Laptop*/
+
+@media (max-width: 1800px) {
+#getCall {
+    padding-right: 0% !important;
+    padding-left: 0% !important;
+  }
+  
+  #searchBar{
+      padding-right: 0% !important;
+    padding-left: 0% !important;
+  }
+  
+  #navbarResponsive{
+      padding-right: 0% !important;
+    padding-left: 0% !important;
+  }
+}
