@@ -68,12 +68,15 @@ if ($conn->connect_error) {
 		                               AuditedBy,
 		                               IsBackOrder,
 		                               CustomerPurchaseOrder) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		                               
+		                               
 		
 		/* prepared statement*/
 	
 		$stmt = mysqli_stmt_init($conn);
 		if(!mysqli_stmt_prepare($stmt, $sql)){
 			//header("location:../signup.php?error=stmtfailed");
+			echo 'not working';
 			exit();
 			
 		}

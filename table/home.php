@@ -121,7 +121,7 @@ echo '<!DOCTYPE html>
     </div>
   </div>
   <!-- Item  Modal -->
-  <div class="modal fad" id="itemModal" aria-labelledby="itemModalLabel" aria-hidden="true"></div>
+  <div class="modal fad loader"" id="itemModal" aria-labelledby="itemModalLabel" aria-hidden="true"></div>
   
   
   <!-- Back Order Modal   -->             
@@ -149,7 +149,7 @@ echo '<!DOCTYPE html>
          <div class="modal-content">
              <div class="modal-header">
                  <h5 class="modal-title" id="ModalLabel">Search By Customer</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearSearchItems()">
                      <span aria-hidden="true">&times;</span></button></div>
                      <div class="modal-body">
                          <form>
@@ -162,8 +162,8 @@ echo '<!DOCTYPE html>
                         </form>            
                      </div>
                      <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                         <button type="button" class="btn btn-info" onclick="getCustomer()">Search</button>
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearSearchItems()">Close</button>
+                         <button type="button" class="btn btn-info" onclick="getCustomer();clearSearchItems();">Search</button>
                          </div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@ echo '<!DOCTYPE html>
          <div class="modal-content">
              <div class="modal-header">
                  <h5 class="modal-title" id="ModalLabel">Search By Sales Order</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearSearchItems()">
                      <span aria-hidden="true">&times;</span></button></div>
                      <div class="modal-body">
                           <form>
@@ -188,8 +188,8 @@ echo '<!DOCTYPE html>
                         </form>            
                      </div>
                      <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                         <button type="button" class="btn btn-info" onclick="getSO()">Search</button>
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearSearchItems()">Close</button>
+                         <button type="button" class="btn btn-info" onclick="getSO();clearSearchItems();">Search</button>
                          </div>
                         </div>
                     </div>
@@ -200,7 +200,7 @@ echo '<!DOCTYPE html>
          <div class="modal-content">
              <div class="modal-header">
                  <h5 class="modal-title" id="ModalLabel">Search By Purchase Order</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearSearchItems()">
                      <span aria-hidden="true">&times;</span></button></div>
                      <div class="modal-body">
                          <form>
@@ -213,8 +213,8 @@ echo '<!DOCTYPE html>
                         </form>         
                      </div>
                      <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                         <button type="button" class="btn btn-info" onclick="getPO()">Search</button>
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearSearchItems()">Close</button>
+                         <button type="button" class="btn btn-info" onclick="getPO();clearSearchItems();">Search</button>
                          </div>
                         </div>
                     </div>
@@ -225,21 +225,21 @@ echo '<!DOCTYPE html>
          <div class="modal-content">
              <div class="modal-header">
                  <h5 class="modal-title" id="ModalLabel">Search By Ship To</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearSearchItems()">
                      <span aria-hidden="true">&times;</span></button></div>
                      <div class="modal-body">
                          <form>
                             <div class="form-row">
                               <div class="form-group col-md-10" style="padding-left: 16%;">
                                 <label for="">Ship To</label>
-                                <input type="text" class="form-control" id="shiptoSearch" >
+                                <input type="text" class="form-control" id="shiptoSearch" onclick="clearSearchItems()">
                               </div>
                             </div>
                         </form>     
                      </div>
                      <div class="modal-footer">
                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                         <button type="button" class="btn btn-info" onclick="getShipTo()">Search</button>
+                         <button type="button" class="btn btn-info" onclick="getShipTo();clearSearchItems();">Search</button>
                          </div>
                         </div>
                     </div>
@@ -250,7 +250,7 @@ echo '<!DOCTYPE html>
          <div class="modal-content">
              <div class="modal-header">
                  <h5 class="modal-title" id="ModalLabel">Search By Item</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearSearchItems()">
                      <span aria-hidden="true">&times;</span></button></div>
                      <div class="modal-body">
                          <form>
@@ -263,8 +263,8 @@ echo '<!DOCTYPE html>
                         </form>     
                      </div>
                      <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                         <button type="button" class="btn btn-info" onclick="getItem()" >Search</button>
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearSearchItems()">Close</button>
+                         <button type="button" class="btn btn-info" onclick="getItem();clearSearchItems();" >Search</button>
                          </div>
                         </div>
                     </div>
@@ -276,19 +276,18 @@ echo '<!DOCTYPE html>
     <body>
   <!-- <div>-->
      <div id="searchBar" style="margin-bottom: .5%; margin-top: .5%; padding-left: 5%; padding-right: 5%;">
+      <label class="container" style="display: inline; font-size: 12px;">
+        <button id="refresh" style="margin-left: 0%;" class="btn  btn-sm btn-info" onclick="refreshData()" data-toggle="tooltip" data-placement="top" title="Active List"><i class="fas fa-redo fa-md" id="refreshBtn" ></i> Active </button>
+      </label>
          <label class="container" style="display: inline; font-size: 12px;">
              <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#exampleModal" tabindex="-1"><i class="fa fa-plus-square" aria-hidden="true"></i> New Build</button>
              </label>
-    	<!-- <label class="container" style="display: inline; font-size: 12px;"><button>New Fab Item</button><span class="checkmark"></span>-->
+    
       <label class="container" style="display: inline; font-size: 12px;">
-        <!--<button class="btn btn-sm btn-info" data-toggle="modal" data-target="#BOModal" onclick="getBackOrders()">Back Orders</button>-->
+        
         <button class="btn btn-sm btn-info"  onclick="getBackOrders()"><i class="fa fa-history" aria-hidden="true"></i> Back Orders</button>
       </label>
-       <!--<label class="container" style="display: inline; font-size: 12px;">
-        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">-->
-            <!--<button type="button" class="btn btn-secondary">1</button>
-            <button type="button" class="btn btn-secondary">2</button>-->
-            
+      
        <!-- <div class="btn-group" role="group">
             <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Dropdown
@@ -303,9 +302,7 @@ echo '<!DOCTYPE html>
       
      
       <div style="float: right;">
-       <label class="container" style="display: inline; font-size: 12px;">
-        <button id="refresh" style="margin-left: 0%; margin-bottom: 5%;" class="btn  btn-sm btn-info" onclick="refreshData()" data-toggle="tooltip" data-placement="top" title="Refresh Button"><i class="fas fa-redo fa-md" id="refreshBtn" ></i> Refresh </button>
-      </label>
+      
       <form action=".././includes/logout.inc.php" method="post">
       <label class="container" style="display: inline; font-size: 12px;">
       <button style="margin-bottom: 2%;" type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-user" aria-hidden="true"></i> <span id="fullNameField" style="text-align: center;" value="'.$_SESSION['fullname'].'">'.$_SESSION['fullname'].'</span></button>
@@ -332,7 +329,7 @@ echo '<!DOCTYPE html>
                 <a class="nav-link js-scroll-trigger nav-itemize " style="color: #000000; font-size: 12px; font-weight: bold;" data-toggle="modal" data-target="#ByCustomerModal">By Customer</a>
               </li>
               <li class="nav-item"> 
-                <a class="nav-link js-scroll-trigger nav-itemize" style="color: #000000; font-size: 12px; font-weight: bold;" data-toggle="modal" data-target="#BySalesOrderModal" >By SO#</a>
+                <a class="nav-link js-scroll-trigger nav-itemize" style="color: #000000; font-size: 12px; font-weight: bold;" data-toggle="modal" data-target="#BySalesOrderModal" onclick="clearSO()">By SO#</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link js-scroll-trigger nav-itemize" style="color: #000000; font-size: 12px; font-weight: bold;" data-toggle="modal" data-target="#ByPurchaseOrderModal">By PO#</a>
@@ -375,8 +372,6 @@ echo '<!DOCTYPE html>
           
           $(".ui-datepicker").hide();
           
-        
-          
          
         });
       </script>
@@ -387,8 +382,8 @@ echo '<!DOCTYPE html>
 ?>
  <script>
     var session = (<?php echo json_encode($_SESSION); ?>);
-   /* if(session.fullname == 'Rhonda'){
-    $('#refresh').css("margin-left", "51%");
+   /*if(session.fullname !== 'Rhonda' || session.fullname !== 'KathyC'){
+       session.fullname = '';
     }*/
     
 </script>

@@ -30,6 +30,7 @@ $audited = $_POST["audited"];
 $auditdate = $_POST["auditdate"];
 $auditedby = $_POST["auditedby"];
 $notes = $_POST["notes"];
+$backorder = $_POST["backorder"];
 $bi = $_POST["bi"];
 
 
@@ -41,7 +42,7 @@ if ($conn->connect_error) {
 
  //if (isset($_POST['bi'])) {
   
-        echo $itemupdate;
+      
 	     $sql = "UPDATE tblBuilds SET DateEntered='$dateentered', 
 	                                  Status='$status', 
 	                                  Item='$itemupdate', 
@@ -51,7 +52,7 @@ if ($conn->connect_error) {
 	                                  PromiseDate='$promisedate', 
 	                                  ShipTo='$shipto',
 	                                  ShippedVia='$shipvia',
-	                                  Shipdate='$shipdate',
+	                                  ShipDate='$shipdate',
 	                                  CustomerPurchaseOrder='$customerpurchaseorder',
 	                                  QuantityMade='$quantitymade',
 	                                  Pulled='$pulled',
@@ -62,16 +63,31 @@ if ($conn->connect_error) {
 	                                  AuditedDate='$auditdate',
 	                                  AuditedBy='$auditedby',
 	                                  Notes='$notes',
+	                                  IsBackOrder='$backorder',
 	                                  QuantityRemaining='$remain' WHERE BuildID='$bi'";
-	    //$sql = "UPDATE tblBuilds SET DateEntered='$date' WHERE BuildID='$bi'";
-	   // $sql = "SELECT * FROM tblBuilds";
+	      /* $sql = "UPDATE tblBuilds SET DateEntered='$dateentered',
+	                                    Status='$status',
+	                                    QuantityOrdered='$quantityordered',
+	                                    Customer='$customer',
+	                                    SalesOrder='$salesorder',
+	                                    PromiseDate='$promisedate',
+	                                    ShipTo='$shipto',
+	                                    ShippedVia='$shipvia',
+	                                    ShipDate='$shipdate',
+	                                    CustomerPurchaseOrder='$customerpurchaseorder',
+	                                    QuantityMade='$quantitymade'
+	                                    WHERE BuildID='$bi'";         */             
+	   
+		
 		
 		$stmt = mysqli_stmt_init($conn);
-		if(!mysqli_stmt_prepare($stmt, $sql)){
-			echo 'no';
+	   
+	if(!mysqli_stmt_prepare($stmt, $sql)){
+			echo 'no not working';
+			
 		}
 		
-        mysqli_stmt_bind_param($stmt, "sssssisssssssssssssss", $dateentered,
+       mysqli_stmt_bind_param($stmt, "sssssissssssssssssssss", $dateentered,
                                                               $status,
                                                               $itemupdate,
                                                               $quantityordered,
@@ -91,13 +107,25 @@ if ($conn->connect_error) {
                                                               $auditdate,
                                                               $auditedby,
                                                               $notes,
+                                                              $backorder,
                                                               $remain);
-	 
+                                                              
+	   /* mysqli_stmt_bind_param($stmt, "ssssissssss", $dateentered, 
+	                                            $status, 
+	                                            $quantityordered, 
+	                                            $customer, 
+	                                            $salesorder,
+	                                            $promisedate,
+	                                            $shipto,
+	                                            $shipvia,
+	                                            $shipdate,
+	                                            $customerpurchaseorder,
+	                                            $quantitymade);*/
 		mysqli_stmt_execute($stmt);
 		mysqli_stmt_close($stmt);
 	//	header("location:https://divinelighting.net/table/home.php");
 	
-		echo json_encode("succesfully entered ");
+		//echo json_encode("succesfully entered ");
 		exit();
 
    /* } 

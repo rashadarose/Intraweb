@@ -2,9 +2,9 @@ let myContent = '';
 
 let tableHeader =  "<table class='table table-striped table-bordered table-res'>" +
                    "<thead style='background-color: #81c2cc'><tr><th>BuildID</th><th>Status</th><th>DateEntered</th>"+
-                   "<th>Item</th><th>QuantityOrdered</th><th>QuantityMade</th>"+
+                   "<th>Item</th><th>QO</th><th>QM</th><th>QR</th>"+
                    "<th>Customer</th><th>SalesOrder</th><th>PO</th>"+
-                    "<th>Completed</th><th>CompletedDate</th><th>ShipTo</th>"+
+                    "<th>Completed</th><th>Notes</th><th>ShipTo</th>"+
                    "</thead>" +
                    "<tbody>";
 let tableFooter = "</tr></tbody></table>";
@@ -35,6 +35,14 @@ let shipViaObj = {dp: 'Divine (Penske)',
                 rl: 'R&L Express',
                 rr: 'Roadrunner'} 
 
+ 
+             
+ const month = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];               
+                const d = new Date();
+                let year = d.getFullYear();
+                let day = d.getDate();
+                let monName = month[d.getMonth()];
+              const mydate = (day+"-"+monName+"-"+(year - 2000));
 //staus color map/object/array
 
 //write more comments for the code
@@ -128,46 +136,46 @@ let shipViaObj = {dp: 'Divine (Penske)',
                         "<div class='form-row'>"+
                         "<div class='form-group col-md-1'>"+
                         "<label>Ordered</label>"+
-                        "<input type='text' class='form-control' id='quantityOrderedUpdateRead' name='quantityorderedupdateread' placeholder='" + data[0].QuantityOrdered + "' value='"+data[0].QuantityOrdered+"' readonly></div>"+
+                        "<input type='text' class='form-control' id='quantityOrderedUpdate' name='quantityorderedupdate' placeholder='" + data[0].QuantityOrdered + "' value='"+data[0].QuantityOrdered+"'></div>"+
                         "<div class='form-group col-md-1'>"+
                         "<label>Pulled</label>"+
                         "<input type='text' class='form-control' id='pulledUpdate' name='pulledupdate' placeholder='" + data[0].Pulled + "'value='"+data[0].Pulled+"'></div>"+
                         "<div class='form-group col-md-1'>"+
                         "<label>Made</label>"+
-                        "<input type='text' class='form-control' id='quantityMadeUpdate' name='madeupdate' placeholder='" + data[0].QuantityMade + "' value='"+data[0].QuantityMade+"' readonly></div>"+
+                        "<input type='text' class='form-control' id='quantityMadeUpdate' name='madeupdate' placeholder='" + data[0].QuantityMade + "' value='"+data[0].QuantityMade+"'></div>"+
                         "<div class='form-group col-md-1'>"+
+                        "<label>Remain</label>"+
+                        "<input type='text' class='form-control' id='quantityRemainUpdate' name='quantityremainupdate' placeholder='" + data[0].QuantityRemaining + "' value='"+ data[0].QuantityRemaining +"'readonly></div>"+
+                        "</div>"+
+                        /*(parseInt(data[0].QuantityOrdered) - parseInt(data[0].QuantityMade))*/
+                        
+                        "<div class='form-row'>"+
+                        
+                         "<div class='form-group col-md-2'>"+
                         "<label>Complete</label>"+
-                        "<input type='text' class='form-control' id='completeUpdate' name='completeupdate' placeholder='" + data[0].Completed + "'value='"+data[0].Completed+"'></div>"+
+                        "<input type='text' class='form-control' id='completeUpdate' name='completeupdate' placeholder='" + data[0].Completed + "'value='"+data[0].Completed+"' readonly></div>"+
+                        
                         "<div class='form-group col-md-2'>"+
                         "<label>Completed Date</label>"+
-                        "<input type='text' class='form-control' id='completedateUpdateRead' name='completedateupdateread' placeholder='" + data[0].CompletedDate + "'value='"+data[0].CompletedDate+"' readonly></div>"+
-                        "</div>"+
+                        "<input type='text' class='form-control' id='completedateUpdate' name='completedateupdate' placeholder='" + data[0].CompletedDate + "'value='"+data[0].CompletedDate+"'></div>"+
                         
-                       /* "<div class='form-row'>"+
-                        "<div class='form-group col-md-8'>"+
-                        "<label>Give Reason</label>"+
-                        "<input style='height:200px; margin-bottom: 1%;' type='text' class='form-control' id='giveReason' name='givereason'>"+
-                         "<button type='button' class='btn btn-success' data-dismiss='modal'>Email Reason</button>"+
-                        "</div>"+
+                       
+                         /*"<div class='form-group col-md-2'>"+
+                        "<label class='form-check-label' for='exampleRadios1'>Complete"+
+                          "</label>"+
+                        "<input style='margin-left: 4%; margin-top:4%;' class='form-check-input' type='radio' name='exampleRadios' value='"+ data[0].Completed +"' onclick='updateComplete()'>"+
+                         
                         "</div>"+*/
+                        
+                        "</div>"+
                         
                         "<div class='form-row'>"+
                         "<div class='form-group col-md-8'>"+
                          "<button id='togglePro' style='margin-bottom: 1%;' type='button' class='btn btn-success' onclick='toggleProduction()'>Undo Production</button><br>"+
-                        "<textarea style='height:200px;' type='text' class='form-control' id='giveReason' name='givereason' placeholder='Instructions:' readonly>"+
-                        "1. Double-Check the quantities for Ordered and Pulled.&#13;"+
-                        "2. Type in the quantity made.&#13;"+
-                        "3. Check the Completed box.&#13;"+
-                        "4. If Made is Less Than Pulled Then Give the Reason for the Partial Build and Click Email.&#13;"+
-                        "5. On the New Email Window, Click Send.&#13;"+
-                        "6. Click Save/Close.&#13;"+
-                        "</textarea>"+
                         
                         "</div>"+
                         
                         "</div>"+
-                        
-                        
                         
                         "</form>"+
                         
@@ -285,6 +293,11 @@ let shipViaObj = {dp: 'Divine (Penske)',
                               "<label class='form-check-label' for='exampleRadios3'>Roadrunner"+
                               "</label>"+
                             "</div>"+
+                            "<div class='form-check'>"+
+                              "<input class='form-check-input' type='radio' name='exampleRadios' id='exampleRadios3' value=' ' onclick='updateShipVia()'>"+
+                              "<label class='form-check-label' for='exampleRadios3'>Blank"+
+                              "</label>"+
+                            "</div>"+
                          "</div>"+     
                        
                         
@@ -296,33 +309,54 @@ let shipViaObj = {dp: 'Divine (Penske)',
                         
                         "<div role='tabpanel' class='tab-pane' id='audtingTab'>"+
                         
-                        "<form id='tForm' method='post'>"+
+                        "<form id='tForm'>"+
                         "<div class='form-row'>"+
                         "<div class='form-group col-md-2'>"+
                         "<label>Ordered</label>"+
-                        "<input type='text' class='form-control' id='quantityOrderedUpdate' name='quantityorderedupdate' placeholder='" + data[0].QuantityOrdered + "' value='"+data[0].QuantityOrdered+"'></div>"+
+                        "<input type='text' class='form-control' id='quantityOrderedUpdateRead' name='quantityorderedupdateread' placeholder='" + data[0].QuantityOrdered + "' value='"+data[0].QuantityOrdered+"' readonly></div>"+
                         "<div class='form-group col-md-2'>"+
                         "<label>Made</label>"+
-                        "<input type='text' class='form-control' id='madeUpdate' name='quantitymadeupdate' placeholder='" + data[0].QuantityMade + "'value='"+data[0].QuantityMade+"' ></div>"+
+                        "<input type='text' class='form-control' id='madeUpdateRead' name='quantitymadeupdate' placeholder='" + data[0].QuantityMade + "'value='"+data[0].QuantityMade+"' readonly></div>"+
                         "<div class='form-group col-md-2'>"+
                         "<label>Remain</label>"+
-                        "<input type='text' class='form-control' id='quantityRemainUpdate' name='quantityremainupdate' placeholder='" + data[0].QuantityRemaining + "' value='"+data[0].QuantityRemaining+"'></div>"+
+                        "<input type='text' class='form-control' id='quantityRemainUpdateRead' name='quantityremainupdateread' placeholder='" + data[0].QuantityRemaining + "' value='"+ data[0].QuantityRemaining +"' readonly></div>"+
+                        /*"<div class='form-group col-md-2'>"+
+                        "<label>BackOrder</label>"+
+                        "<input type='text' class='form-control' id='backOrderUpdate' name='backorderupdate' placeholder='" + data[0].NeedsBackOrder + "' value='"+ data[0].NeedsBackOrder +"'></div>"+*/
+                         "<div class='form-group col-md-2'>"+
+                        "<label>Completed Date</label>"+
+                        "<input type='text' class='form-control'  id='completedateUpdateRead' name='completedateupdateread' placeholder='" + data[0].CompletedDate + "' value='"+data[0].CompletedDate+"'readonly></div>"+
                         "</div>"+
                         "<div class='form-row'>"+
+                        
                         "<div class='form-group col-md-2'>"+
                         "<label>Audited</label>"+
-                        "<input type='text' class='form-control' id='auditedUpdate' name='auditedupdate' placeholder='" + data[0].Audited + "' value='"+data[0].Audited+"'></div>"+
+                        "<input type='text' class='form-control' id='auditedUpdate' name='auditedupdate' placeholder='" + data[0].Audited + "' value='"+data[0].Audited+"' readonly></div>"+
+                        
                         "<div class='form-group col-md-2'>"+
                         "<label>Date</label>"+
                         "<input type='text' class='form-control' id='auditedDateUpdate' name='auditeddateupdate' placeholder='" + data[0].AuditedDate + "' value='"+data[0].AuditedDate+"'></div>"+
+                        
                         "<div class='form-group col-md-2'>"+
                         "<label>Audited By</label>"+
-                        "<input type='text' class='form-control' id='auditedByUpdate' name='auditedbyupdate' placeholder='" + session.fullname + "' value='"+session.fullname+"'></div>"+
+                        "<input type='text' class='form-control' id='auditedByUpdate' name='auditedbyupdate' placeholder='" + data[0].AuditedBy + "' value='"+data[0].AuditedBy+"'></div>"+
+                        
+                        
+                        
+                        /*"<div class='form-group col-md-2'>"+
+                        
+                        "<button type='submit' class='btn btn-success' name='' onclick='' >Audit</button></div>"+*/
                         "</div>"+
                         "<div class='form-row'>"+
                         "<div class='form-group col-md-2'>"+
-                        "<label>Completed Date</label>"+
-                        "<input type='text' class='form-control'  id='completedateUpdate' name='completedateupdate' placeholder='" + data[0].CompletedDate + "' value='"+data[0].CompletedDate+"'></div>"+
+                        "<label>Audit Order</label>"+
+                        "<button id='toggleAuditbtn' type='button' class='btn btn-success' onclick='toggleAudit()'>Audit Order</button></div>"+
+                        
+                        "<div class='form-group col-md-2'>"+
+                        "<label>Create Back Order</label>"+
+                        "<button type='button' class='btn btn-success' name='submit' onclick='createBackOrder()' >Create B/O</button>"+
+                        /*"<input type='text' class='form-control'  placeholder='' value=''></div>"+*/
+                        "</div>"+
                         "</div>"+
                         "</form>"+
                         
@@ -339,15 +373,26 @@ let shipViaObj = {dp: 'Divine (Penske)',
            
                      $('#itemModal').html(myContent);
                      
-                       if($("#completeUpdate").val() == "FALSE"){
-                         $("#togglePro").text("Redo Production");}
+                       if($("#completeUpdate").val() == "NO" || $("#completeUpdate").val() == " " ){
+                         $("#togglePro").text("Production Done");}
+                         
+                         if($("#auditedUpdate").val() == "YES" ){
+                          $('#toggleAuditbtn').text('Undo Audit');}
                
-                     $( "#auditedDateUpdate" ).datepicker({ dateFormat: "dd-M-y" });
+                    
+                     $("#auditedDateUpdate").datepicker({ dateFormat: "dd-M-y" });
                      $( "#dateEnteredUpdate" ).datepicker({ dateFormat: "dd-M-y" });
                      $( "#promisedUpdate" ).datepicker({ dateFormat: "dd-M-y" });
                      $( "#scheduledUpdate" ).datepicker({ dateFormat: "dd-M-y" });
                      $( "#shipDateUpdate" ).datepicker({ dateFormat: "dd-M-y" });
-                    $( "#completedateUpdate" ).datepicker({ dateFormat: "dd-M-y" });
+                     $( "#completedateUpdate" ).datepicker({ dateFormat: "dd-M-y" });
+                     
+                     if($("#auditedDateUpdate").val() == ' '){
+                         $("#auditedDateUpdate").val(mydate);
+                     }else{}
+                    
+                    
+   
                 }
             
             });  
@@ -368,19 +413,21 @@ let shipViaObj = {dp: 'Divine (Penske)',
                         "<td>" + data[i].Item + "</td>" +
                         "<td>" + data[i].QuantityOrdered + "</td>" +
                         "<td>" + data[i].QuantityMade + "</td>" +
-                        //"<td>" + data[i].QuantityRemaining + "</td>" +
+                        "<td>" + data[i].QuantityRemaining + "</td>" +
                         "<td>" + data[i].Customer + "</td>" +
                         "<td>" + data[i].SalesOrder + "</td>" +
                         "<td>" + data[i].CustomerPurchaseOrder + "</td>" +
                         //"<td>" + data[i].PromiseDate + "</td>" +
                         "<td>" + data[i].Completed + "</td>" +
-                        "<td>" + data[i].CompletedDate + "</td>" +
+                        "<td>" + data[i].Notes + "</td>" +
                         "<td>" + data[i].ShipTo + "</td></tr>";
                 }
     
                 $('#getCall').html(tableHeader + tableContent + tableFooter);
                 dataObj = data;
                 statusColor(dataObj);
+                                
+               
                 //console.log(dataObj);
                 
             }
@@ -399,19 +446,43 @@ let shipViaObj = {dp: 'Divine (Penske)',
       $('#customerName').val(' ');
       $('#salesOrderNumber').val(' ');
       $('#customerPurchaseOrder').val(' ');
-      $('#dateEntered').val(' ');
+      //$('#dateEntered').val(' ');
       $('#shipTo').val(' ');
 }
 
+function clearSearchItems(){
+    $('#customerSearch').val('');
+    //$('#salesOrderSearch').val('');
+    $('#purchaseOrderSearch').val('');
+    $('#shiptoSearch').val('');
+    $('#itemSearch').val('');
+}
+
+function clearSO(){
+   
+    $('#salesOrderSearch').val('');
+   
+}
+
 function toggleProduction(){
-    if($('#completeUpdate').val() == 'TRUE'){
-        $('#completeUpdate').val('FALSE');
-        $('#togglePro').text('Redo Production');
-    }else{$('#completeUpdate').val('TRUE')
+    if($('#completeUpdate').val() == 'YES'){
+        $('#completeUpdate').val('NO');
+        $('#togglePro').text('Production Done');
+    }else{$('#completeUpdate').val('YES')
         $('#togglePro').text('Undo Production');
     }
 }
 
+function toggleAudit(){
+    if($('#auditedUpdate').val() == 'YES'){
+        $('#auditedUpdate').val('NO');
+        $('#auditedByUpdate').val(' ');
+        $('#toggleAuditbtn').text('Audit Order');
+    }else{$('#auditedUpdate').val('YES')
+        $('#auditedByUpdate').val(session.fullname)
+        $('#toggleAuditbtn').text('Undo Audit');
+    }
+}
  
 
     
@@ -535,8 +606,6 @@ function toggleProduction(){
 }
 
 
-
- //This is an ajax call that Updates an item
  function updateItem(){
      let itemUpdate = $('#itemUpdate').val();
      let customerUpdate = $('#customerUpdate').val();
@@ -548,16 +617,17 @@ function toggleProduction(){
      let shipDateUpdate = $('#shipDateUpdate').val();
      let shipToUpdate = $('#shipToUpdate').val();
      let pulledUpdate = $('#pulledUpdate').val();
-     let quantityMadeUpdate = $('#madeUpdate').val();
+     let quantityMadeUpdate = $('#quantityMadeUpdate').val();
      let completeUpdate =  $('#completeUpdate').val();
      let completedateUpdate = $('#completedateUpdate').val();
      let shipViaUpdate  = $('#shipViaUpdate').val();
      let trackingUpdate = $('#trackingUpdate').val();
-     let quantityRemainUpdate = $('#quantityRemainUpdate').val(); 
+     let quantityRemainUpdate = $('#quantityOrderedUpdate').val() - $('#quantityMadeUpdate').val(); 
      let auditedUpdate = $('#auditedUpdate').val();
      let auditedDateUpdate = $('#auditedDateUpdate').val();
      let auditedByUpdate = $('#auditedByUpdate').val(); 
      let notesUpdate = $('#notesUpdate').val();
+     let backOrderUpdate = $('#backOrderUpdate').val();
     
      let e = document.getElementById("statusOption");
      let statusOption = e.options[e.selectedIndex].text;
@@ -583,6 +653,7 @@ function toggleProduction(){
                   auditdate: auditedDateUpdate,
                   auditedby: auditedByUpdate,
                   notes: notesUpdate,
+                  backorder: backOrderUpdate,
                   bi: BI};
              
                  //console.log(updateObj.itemupdate);
@@ -590,7 +661,10 @@ function toggleProduction(){
                  console.log(radioValue);
                  console.log(statusOption.split('|')[0]);
                  $('#itemModal').modal('hide');
-                 
+                 setTimeout(() => {
+                    //refreshData();
+                    getSO();
+                }, "500")
      
    $.ajax({
                     type: "POST",
@@ -598,11 +672,90 @@ function toggleProduction(){
                     data: updateObj,
                     success: function(response)
                     {
-                        
+                        //refreshData();
+                       
                     }
                    //push data into dataObj
+                   
                });
 
+}
+
+
+function createBackOrder(){
+     let itemUpdate = $('#itemUpdate').val();
+     let customerUpdate = $('#customerUpdate').val();
+     let salesOrderUpdate = $('#orderUpdate').val();
+     let customerPurchaseOrderUpdate = $('#purchaseOrderUpdate').val();
+     let quantityOrderedUpdate = $('#quantityOrderedUpdate').val();
+     let dateEnteredUpdate = $('#dateEnteredUpdate').val();
+     let promiseDateUpdate = $('#promisedUpdate').val();
+     let shipDateUpdate = $('#shipDateUpdate').val();
+     let shipToUpdate = $('#shipToUpdate').val();
+     let pulledUpdate = $('#pulledUpdate').val();
+     let quantityMadeUpdate = $('#quantityMadeUpdate').val();
+     let completeUpdate =  $('#completeUpdate').val();
+     let completedateUpdate = $('#completedateUpdate').val();
+     let shipViaUpdate  = $('#shipViaUpdate').val();
+     let trackingUpdate = $('#trackingUpdate').val();
+     let quantityRemainUpdate = $('#quantityRemainUpdate').val(); 
+     let auditedUpdate = $('#auditedUpdate').val();
+     let auditedDateUpdate = $('#auditedDateUpdate').val();
+     let auditedByUpdate = $('#auditedByUpdate').val(); 
+     let notesUpdate = $('#notesUpdate').val();
+     let backOrderUpdate = $('#backOrderUpdate').val();
+    
+     let e = document.getElementById("statusOption");
+     let statusOption = e.options[e.selectedIndex].text;
+     
+     let boObj ={item: itemUpdate,
+                  customer: customerUpdate,
+                  status: statusOption.split('|')[0],
+                  salesorder: salesOrderUpdate,
+                  customerpurchaseorder: customerPurchaseOrderUpdate,
+                  quantityordered: quantityRemainUpdate,
+                  dateentered: dateEnteredUpdate,
+                  promisedate: promiseDateUpdate,
+                  shipdate: shipDateUpdate,
+                  shipto: shipToUpdate,
+                  shipvia: shipViaUpdate,
+                  pulled: pulledUpdate,
+                  quantitymade: '',
+                  remain: '',
+                  complete: completeUpdate,
+                  completedate: completedateUpdate,
+                  tracking: trackingUpdate,
+                  audited: auditedUpdate,
+                  auditdate: auditedDateUpdate,
+                  auditedby: auditedByUpdate,
+                  notes: notesUpdate,
+                  backorder: backOrderUpdate,
+                  bi: BI};
+             
+                 //console.log('hello');
+                 /*let radioValue= $("input[type='radio']:checked").val();
+                 console.log(radioValue);
+                 console.log(statusOption.split('|')[0]);
+                 $('#itemModal').modal('hide');
+                 setTimeout(() => {
+                    refreshData();
+                }, "1000")*/
+     
+   $.ajax({
+                    type: "POST",
+                    url: "https://divinelighting.net/intraweb/table/post.php",
+                    data: boObj,
+                    success: function(response)
+                    {
+                        //refreshData();
+                       
+                    }
+                   //push data into dataObj
+                   
+               });
+//refreshData();
+ //getAll();
+ // make a new php or use post.php
 }
 
 //This is an ajax call that Deletes an item
@@ -614,6 +767,13 @@ function toggleProduction(){
     
     if (confirmation) {
              $('#itemModal').modal('hide');
+             
+              setTimeout(() => {
+                    //refreshData();
+                    getSO();
+                }, "500")
+             
+             
          $.ajax({
                     type: "POST",
                     url: "https://divinelighting.net/intraweb/table/delete.php/?BuildID="+BI,
@@ -624,10 +784,15 @@ function toggleProduction(){
                          
                      
                    }
-               }).done(function(){ 
+                    
                    
-                });
+               })
+               
+              
             }
+           console.log('working');
+        // refreshData()
+           
      
  }
  
@@ -638,7 +803,7 @@ function toggleProduction(){
       //$('#backOrderModal').html(backOrderContent);
       
      for(let i=0; i < dataObj.length; i++ ){
-         if(dataObj[i].NeedsBackOrder == 'TRUE'){
+         if(dataObj[i].QuantityRemaining != 0 || dataObj[i].QuantityRemaining == ' '){
            
             backOrderContent += "<tr class='highlight' onclick='grabBI(this)' data-toggle='modal' data-target='#itemModal' data-id='"+ dataObj[i].BuildID +"'>"+ 
                         "<td>" + dataObj[i].BuildID + "</td>" +
@@ -648,13 +813,13 @@ function toggleProduction(){
                         "<td>" + dataObj[i].Item + "</td>" +
                         "<td>" + dataObj[i].QuantityOrdered + "</td>" +
                         "<td>" + dataObj[i].QuantityMade + "</td>" +
-                        //"<td>" + dataObj[i].QuantityRemaining + "</td>" +
+                        "<td>" + dataObj[i].QuantityRemaining + "</td>" +
                         "<td>" + dataObj[i].Customer + "</td>" +
                         "<td>" + dataObj[i].SalesOrder + "</td>" +
                         "<td>" + dataObj[i].CustomerPurchaseOrder + "</td>" +
                        // "<td>" + dataObj[i].PromiseDate + "</td>" +
                         "<td>" + dataObj[i].Completed + "</td>" +
-                        "<td>" + dataObj[i].CompletedDate + "</td>" +
+                        "<td>" + dataObj[i].Notes + "</td>" +
                         "<td>" + dataObj[i].ShipTo + "</td></tr>";
          }
      }
@@ -681,13 +846,13 @@ function toggleProduction(){
                         "<td>" + dataObj[i].Item + "</td>" +
                         "<td>" + dataObj[i].QuantityOrdered + "</td>" +
                         "<td>" + dataObj[i].QuantityMade + "</td>" +
-                        //"<td>" + dataObj[i].QuantityRemaining + "</td>" +
+                        "<td>" + dataObj[i].QuantityRemaining + "</td>" +
                         "<td>" + dataObj[i].Customer + "</td>" +
                         "<td>" + dataObj[i].SalesOrder + "</td>" +
                         "<td>" + dataObj[i].CustomerPurchaseOrder + "</td>" +
                        // "<td>" + dataObj[i].PromiseDate + "</td>" +
                         "<td>" + dataObj[i].Completed + "</td>" +
-                        "<td>" + dataObj[i].CompletedDate + "</td>" +
+                        "<td>" + dataObj[i].Notes + "</td>" +
                         "<td>" + dataObj[i].ShipTo + "</td></tr>";
              
          }
@@ -700,7 +865,7 @@ function toggleProduction(){
  }
  
 //This is a function that gets all Sales Orders
-  function getSO(){
+/*  function getSO(){
       var y = $("#salesOrderSearch").val();
       tableContent = "";
       $('#getAll').html(tableContent);
@@ -730,7 +895,48 @@ function toggleProduction(){
       $('#BySalesOrderModal').modal('hide');
       $('#getCall').html(tableHeader + tableContent + tableFooter);
       statusColor(dataObj);
- }
+ }*/
+ 
+ 
+  function getSO() {
+      var y = $("#salesOrderSearch").val();
+      tableContent = "";
+      $('#getAll').html(tableContent);
+      
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "https://divinelighting.net/intraweb/table/get.php",
+            success: function(data) {
+                for (let i = 0; i < data.length; i++) {
+                    if(data[i].SalesOrder === y){
+                    tableContent += "<tr class='highlight' onclick='grabBI(this)' data-toggle='modal' data-target='#itemModal' data-id='"+ data[i].BuildID +"'>"+ 
+                        "<td>" + data[i].BuildID + "</td>" +
+                        "<td id='"+ data[i].BuildID +"' class='statusClass'>" + data[i].Status + "</td>" +
+                        "<td>" + data[i].DateEntered + "</td>" +
+                        "<td>" + data[i].Item + "</td>" +
+                        "<td>" + data[i].QuantityOrdered + "</td>" +
+                        "<td>" + data[i].QuantityMade + "</td>" +
+                        "<td>" + data[i].QuantityRemaining + "</td>" +
+                        "<td>" + data[i].Customer + "</td>" +
+                        "<td>" + data[i].SalesOrder + "</td>" +
+                        "<td >" + data[i].CustomerPurchaseOrder + "</td>" +
+                        //"<td>" + data[i].PromiseDate + "</td>" +
+                        "<td id='b"+ data[i].BuildID +"'>" + data[i].Completed + "</td>" +
+                        "<td>" + data[i].Notes + "</td>" +
+                        "<td>" + data[i].ShipTo + "</td></tr>";}
+                }
+    
+                    $('#BySalesOrderModal').modal('hide');
+                    $('#getCall').html(tableHeader + tableContent + tableFooter);
+                    statusColor(data);
+                    
+                
+            }
+    
+        });
+    
+    }
  
 /*Get PO (purchase order) stub*/ 
  function getPO(){
@@ -748,13 +954,13 @@ function toggleProduction(){
                         "<td>" + dataObj[i].Item + "</td>" +
                         "<td>" + dataObj[i].QuantityOrdered + "</td>" +
                         "<td>" + dataObj[i].QuantityMade + "</td>" +
-                        //"<td>" + dataObj[i].QuantityRemaining + "</td>" +
+                        "<td>" + dataObj[i].QuantityRemaining + "</td>" +
                         "<td>" + dataObj[i].Customer + "</td>" +
                         "<td>" + dataObj[i].SalesOrder + "</td>" +
                         "<td>" + dataObj[i].CustomerPurchaseOrder + "</td>" +
                        // "<td>" + dataObj[i].PromiseDate + "</td>" +
                         "<td>" + dataObj[i].Completed + "</td>" +
-                        "<td>" + dataObj[i].CompletedDate + "</td>" +
+                        "<td>" + dataObj[i].Notes + "</td>" +
                         "<td>" + dataObj[i].ShipTo + "</td></tr>";
              
          }
@@ -784,13 +990,13 @@ function toggleProduction(){
                         "<td>" + dataObj[i].Item + "</td>" +
                         "<td>" + dataObj[i].QuantityOrdered + "</td>" +
                         "<td>" + dataObj[i].QuantityMade + "</td>" +
-                        //"<td>" + dataObj[i].QuantityRemaining + "</td>" +
+                        "<td>" + dataObj[i].QuantityRemaining + "</td>" +
                         "<td>" + dataObj[i].Customer + "</td>" +
                         "<td>" + dataObj[i].SalesOrder + "</td>" +
                         "<td>" + dataObj[i].CustomerPurchaseOrder + "</td>" +
                         //"<td>" + dataObj[i].PromiseDate + "</td>" +
                         "<td>" + dataObj[i].Completed + "</td>" +
-                        "<td>" + dataObj[i].CompletedDate + "</td>" +
+                        "<td>" + dataObj[i].Notes + "</td>" +
                         "<td>" + dataObj[i].ShipTo + "</td></tr>";
              
          }
@@ -820,13 +1026,13 @@ function toggleProduction(){
                         "<td>" + dataObj[i].Item + "</td>" +
                         "<td>" + dataObj[i].QuantityOrdered + "</td>" +
                         "<td>" + dataObj[i].QuantityMade + "</td>" +
-                        //"<td>" + dataObj[i].QuantityRemaining + "</td>" +
+                        "<td>" + dataObj[i].QuantityRemaining + "</td>" +
                         "<td>" + dataObj[i].Customer + "</td>" +
                         "<td>" + dataObj[i].SalesOrder + "</td>" +
                         "<td>" + dataObj[i].CustomerPurchaseOrder + "</td>" +
                         //"<td>" + dataObj[i].PromiseDate + "</td>" +
                         "<td>" + dataObj[i].Completed + "</td>" +
-                        "<td>" + dataObj[i].CompletedDate + "</td>" +
+                        "<td>" + dataObj[i].Notes + "</td>" +
                         "<td>" + dataObj[i].ShipTo + "</td></tr>";
              
          }
@@ -931,15 +1137,27 @@ function toggleProduction(){
          }
          else{}
          
+         if(obj[i].Audited === 'YES'){
+             //console.log(typeof(obj[i].Status),obj[i].Status)
+             $('#b'+ obj[i].BuildID +'').addClass("green");
+         }
+         
   }      
  }
  
 //Main call gets all items when pages loads
 getAll();
+
+
 //Date picker calls
 $( "#dateEntered" ).datepicker({ dateFormat: "dd-M-y" });
 $( "#promiseDate" ).datepicker({ dateFormat: "dd-M-y" });
 $( "#shipDate" ).datepicker({ dateFormat: "dd-M-y" });
+
+
+    $("#dateEntered").val(mydate);
+  
+                    
  
 //makes these one function
   $('#ByCustomerModal').on('shown.bs.modal', function () {
@@ -967,6 +1185,7 @@ $('#ByItemModal').on('shown.bs.modal', function () {
 $('#customerSearch').keypress(function (e) {
   if (e.which == 13) {
     getCustomer();
+    clearSearchItems();
      e.preventDefault();
   }
 });
@@ -974,6 +1193,7 @@ $('#customerSearch').keypress(function (e) {
 $('#salesOrderSearch').keypress(function (e) {
   if (e.which == 13) {
     getSO();
+    clearSearchItems();
      e.preventDefault();
   }
 });
@@ -981,6 +1201,7 @@ $('#salesOrderSearch').keypress(function (e) {
 $('#purchaseOrderSearch').keypress(function (e) {
   if (e.which == 13) {
     getPO();
+    clearSearchItems();
      e.preventDefault();
   }
 });
@@ -988,6 +1209,7 @@ $('#purchaseOrderSearch').keypress(function (e) {
 $('#shiptoSearch').keypress(function (e) {
   if (e.which == 13) {
     getShipTo()
+    clearSearchItems();
      e.preventDefault();
   }
 });
@@ -995,6 +1217,7 @@ $('#shiptoSearch').keypress(function (e) {
 $('#itemSearch').keypress(function (e) {
   if (e.which == 13) {
     getItem();
+    clearSearchItems();
      e.preventDefault();
   }
 });
@@ -1007,3 +1230,20 @@ function updateShipVia(){
         
 };
 
+function updateComplete(){
+ if($('input[type="radio"]:checked')) {
+    $('#completeUpdate').val("TRUE");
+  }
+  else{ $('#completeUpdate').val("FALSE");}
+        
+};
+
+//fix table quantity ordered
+/*
+UPDATE tblBuilds
+SET QuantityRemaining = QuantityOrdered - QuantityMade
+
+UPDATE tblBuilds
+SET QuantityRemaining = ABS(QuantityRemaining)
+where QuantityRemaining < 0
+*/

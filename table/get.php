@@ -17,16 +17,18 @@ if ($conn->connect_error) {
 $sql = "SELECT * FROM tblBuilds";
 //$sql = "SELECT * FROM accounts";
 $result = mysqli_query($conn,$sql); 
+
 $myArray = array();
 
     if(!isset($_GET['BuildID'])){
          if ($result->num_rows > 0) {
-
+                
             // output data of each row
                 while($row = $result->fetch_assoc()) {
                     $myArray[] = $row;
                 }
                  print json_encode($myArray); 
+                 //echo $row;
                 //echo $_GET['name'];
             } 
 

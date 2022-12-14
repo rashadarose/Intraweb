@@ -167,7 +167,7 @@ $uidExists = uidExist($conn, $username, $username);
 		$_SESSION["Uid"] = $uidExists["Uid"];
 		$_SESSION["fullname"] = $uidExists["fullname"];
 		//header("location:../login.php?". $_POST["uid"] );
-		header("location:../table/home.php");
+	    header("location:../table/home.php");
 		exit();
 	}
 
