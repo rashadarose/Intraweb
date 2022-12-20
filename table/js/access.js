@@ -31,7 +31,7 @@ var BI = 0; //BuildID (Unique Indetifier. for each build)
 let dataObj = {}; //Object with all data
 
 //use template literals
-//make this a map/hash map
+//make this a map/hash
 let shipViaObj = {dp: 'Divine (Penske)',
                 dd: 'Divine (Dodge)',
                 d150: 'Divine (150)',
