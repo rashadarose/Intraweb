@@ -19,6 +19,7 @@ const howdy = 5;
 let lalal = 'lalala';
 let master = 'master';
 let mylife = 7;
+let acc = 'codse to add to access-fix'
 
 
 var BI = 0; //BuildID (Unique Indetifier. for each build)
