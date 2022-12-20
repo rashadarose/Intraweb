@@ -15,6 +15,7 @@ let customerContent = "";
 let ra = 'biddognigga';
 let newFix = 'newest shit';
 let testCommit = 'new commit to test'
+const howdy = 5;
 
 var BI = 0; //BuildID (Unique Indetifier. for each build)
 let dataObj = {}; //Object with all data
