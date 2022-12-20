@@ -3,6 +3,7 @@ function addParams(){
 }
 
 let jab = 'la';
+let thom = 8;
 
 
 
