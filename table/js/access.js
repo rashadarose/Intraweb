@@ -18,7 +18,7 @@ let testCommit = 'new commit to test'
 const howdy = 5;
 let lalal = 'lalala';
 let master = 'master';
-let mylife = 7;
+
 let ahh = 9;
 
 
