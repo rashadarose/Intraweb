@@ -18,13 +18,13 @@ let testCommit = 'new commit to test'
 const howdy = 5;
 let lalal = 'lalala';
 let master = 'master';
-<<<<<<< HEAD
+
 
 let ahh = 9;
-=======
+
 let mylife = 7;
 
->>>>>>> fbe68b546568efc6a94fc76ddcdcd512d363ba64
+
 
 
 var BI = 0; //BuildID (Unique Indetifier. for each build)
