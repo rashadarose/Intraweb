@@ -2,6 +2,8 @@ function addParams(){
     
 }
 
+let jab = 'la';
+
 
 
 class BuildOrder{
